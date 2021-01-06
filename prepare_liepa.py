@@ -23,7 +23,7 @@ def get_subsets(proportions, voice, subfolder, transcript_list):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Prepare liepa dataset fot training.')
     parser.add_argument('-v', '--voice', default='Regina', dest='voice', help="One of available voices [Regina, Aiste, Vladas, Edvardas]")
-    parser.add_argument('-t', '--transcript-list', default='db_tr.txt', dest='transcript_list', help="File containing lines of text recorded audio files with line number corresponding to audio file name.$
+    parser.add_argument('-t', '--transcript-list', default='db_tr.txt', dest='transcript_list', help="File containing lines of text recorded audio files with line number corresponding to audio file name." )
 
     args = parser.parse_args()
 
