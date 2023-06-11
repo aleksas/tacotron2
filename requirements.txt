@@ -1,8 +1,12 @@
-matplotlib==2.1.0
-tensorflow==1.15.2
-numpy==1.13.3
+llvmlite==0.40.1rc1
+matplotlib==3.7.1
+tensorflow
+numpy==1.22.4
 inflect==0.2.5
-librosa==0.6.0
-scipy==1.0.0
+librosa==0.10.0.post2
+scipy
 Unidecode==1.0.22
 pillow
+apex
+numba==0.57.0
+

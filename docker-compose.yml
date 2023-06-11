@@ -1,0 +1,7 @@
+services:
+  tacotron2:
+    volumes:
+      - ../data/LJSpeech-1.1:/workspaces/LJSpeech-1.1
+    build:
+      context: .
+    shm_size: 2gb
