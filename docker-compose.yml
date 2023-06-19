@@ -1,7 +1,13 @@
 services:
   tacotron2:
     volumes:
-      - ../data/LJSpeech-1.1:/workspaces/LJSpeech-1.1
+      - ./:/workspaces/tacotron2/
+    #- ../data/:/workspaces/tacotron2/data/
     build:
       context: .
+    ports:
+      - "6006:6006"
+      - "31337:31337"
     shm_size: 2gb
+    command: /bin/sh -c "while sleep 1000; do :; done"
+
