@@ -8,11 +8,13 @@ RUN apt update \
 #RUN pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" git+https://github.com/NVIDIA/apex.git@e87b5799e697c5ee45119e669d37bb06f6b975ac
 RUN DEBIAN_FRONTEND=noninteractive apt -y install pkg-config wget gfortran
 RUN mkdir -p /root/workspaces/
-COPY . /workspaces/tacotron2
-RUN pip install -r /woekspaces/requirements.txt
+COPY . /root/workspaces/tacotron2
+RUN pip install -r /root/workspaces/tacotron2/requirements.txt
 
 RUN git clone https://github.com/nvidia/apex.git  /root/workspaces/apex \
 	&& pip install -v --disable-pip-version-check --no-cache-dir --no-build-isolation --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" /root/workspaces/apex
+
+WORKDIR /root/workspaces/tacotron2
 
 #RUN pip install apex==0.9.10.dev0 
 
