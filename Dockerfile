@@ -2,7 +2,7 @@ FROM pytorch/pytorch:2.0.1-cuda11.7-cudnn8-devel AS dev
 ENV PATH /usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
 
 RUN python -m pip install --upgrade pip \
-    && pip install packaging cython future
+    && pip install packaging cython future jupyter
 RUN apt update \
     && DEBIAN_FRONTEND=noninteractive apt install -y git llvm pkg-config wget gfortran
 RUN git clone https://github.com/nvidia/apex.git  /root/workspaces/apex \
