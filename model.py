@@ -469,6 +469,9 @@ class Tacotron2(nn.Module):
         self.encoder = Encoder(hparams)
         self.decoder = Decoder(hparams)
         self.postnet = Postnet(hparams)
+        
+        # Speaker embedding layer
+        self.speaker_embedding = nn.Embedding(hparams.n_speakers, hparams.speaker_embedding_dim)
 
     def parse_batch(self, batch):
         text_padded, input_lengths, mel_padded, gate_padded, \
@@ -497,12 +500,20 @@ class Tacotron2(nn.Module):
         return outputs
 
     def forward(self, inputs):
-        text_inputs, text_lengths, mels, max_len, output_lengths = inputs
+        text_inputs, text_lengths, mels, max_len, output_lengths, speaker_ids = inputs
         text_lengths, output_lengths = text_lengths.data, output_lengths.data
 
         embedded_inputs = self.embedding(text_inputs).transpose(1, 2)
 
         encoder_outputs = self.encoder(embedded_inputs, text_lengths)
+        
+        
+        # Get speaker embeddings
+        speaker_embeds = self.speaker_embedding(speaker_ids)
+        
+        # Option: Concatenate with encoder outputs
+        encoder_outputs = torch.cat((encoder_outputs, speaker_embeds.unsqueeze(1).expand(-1, encoder_outputs.size(1), -1)), dim=2)
+        
 
         mel_outputs, gate_outputs, alignments = self.decoder(
             encoder_outputs, mels, memory_lengths=text_lengths)

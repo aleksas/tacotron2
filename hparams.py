@@ -28,6 +28,12 @@ def create_hparams(hparams_string=None, verbose=False):
 
     hparams = HParams(
         ################################
+        # Speaker embedding            #
+        ################################
+        n_speakers=1,
+        speaker_embedding_dim=128,
+        
+        ################################
         # Experiment Parameters        #
         ################################
         epochs=500,
