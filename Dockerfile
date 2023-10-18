@@ -5,8 +5,10 @@ RUN python -m pip install --upgrade pip \
     && pip install packaging cython future jupyter
 RUN apt update \
     && DEBIAN_FRONTEND=noninteractive apt install -y git llvm pkg-config wget gfortran
-RUN git clone https://github.com/nvidia/apex.git  /root/workspaces/apex \
-	&& pip install -v --disable-pip-version-check --no-cache-dir --no-build-isolation --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" /root/workspaces/apex
+RUN git clone https://github.com/nvidia/apex.git  /root/workspaces/apex
+WORKDIR /root/workspaces/apex
+RUN git reset --hard 7b2e71b0d4013f8e2f9f1c8dd21980ff1d76f1b6
+RUN pip install -v --disable-pip-version-check --no-cache-dir --no-build-isolation --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" /root/workspaces/apex
 
 RUN mkdir -p /root/workspaces/
 COPY . /root/workspaces/tacotron2
