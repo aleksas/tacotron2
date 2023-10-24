@@ -33,8 +33,8 @@ class TextMelLoader(torch.utils.data.Dataset):
         text = self.get_text(text)
         mel = self.get_mel(audiopath)
         speaker_id = self.get_speaker_id(speaker_id)
-        return (text, mel)
-        # return (text, mel, speaker_id)
+        # return (text, mel)
+        return ((text, speaker_id), mel)
 
     def get_mel(self, filename):
         if not self.load_mel_from_disk:
@@ -59,8 +59,8 @@ class TextMelLoader(torch.utils.data.Dataset):
         text_norm = torch.IntTensor(text_to_sequence(text, self.text_cleaners))
         return text_norm
 
-    def get_speaker_id(self, speaker_id:int):
-        return speaker_id
+    def get_speaker_id(self, speaker_id:str):
+        return int(speaker_id)
 
     def __getitem__(self, index):
         return self.get_mel_text_pair(self.audiopaths_and_text[index])
@@ -80,18 +80,28 @@ class TextMelCollate():
         PARAMS
         ------
         batch: [text_normalized, mel_normalized]
-        """
+        """ 
+        
+        # Extract text and speaker IDs
+        text_data = [x[0][0] for x in batch]
+        speaker_ids = [x[0][1] for x in batch]
+    
         # Right zero-pad all one-hot text sequences to max input length
         input_lengths, ids_sorted_decreasing = torch.sort(
-            torch.LongTensor([len(x[0]) for x in batch]),
+            torch.LongTensor([len(t) for t in text_data]),
             dim=0, descending=True)
         max_input_len = input_lengths[0]
 
         text_padded = torch.LongTensor(len(batch), max_input_len)
         text_padded.zero_()
         for i in range(len(ids_sorted_decreasing)):
-            text = batch[ids_sorted_decreasing[i]][0]
+            # text = batch[ids_sorted_decreasing[i]][0]
+            text = text_data[ids_sorted_decreasing[i]]
             text_padded[i, :text.size(0)] = text
+            
+            
+        # Assuming speaker_ids are scalar values, convert them to a tensor
+        speaker_ids_tensor = torch.LongTensor(speaker_ids)
 
         # Right zero-pad mel-spec
         num_mels = batch[0][1].size(0)
@@ -112,5 +122,5 @@ class TextMelCollate():
             gate_padded[i, mel.size(1)-1:] = 1
             output_lengths[i] = mel.size(1)
 
-        return text_padded, input_lengths, mel_padded, gate_padded, \
+        return text_padded, input_lengths, speaker_ids_tensor, mel_padded, gate_padded, \
             output_lengths
