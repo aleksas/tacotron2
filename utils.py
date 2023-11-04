@@ -17,7 +17,13 @@ def load_wav_to_torch(full_path):
 
 def load_filepaths_and_text(filename, split="|"):
     with open(filename, encoding='utf-8') as f:
-        filepaths_and_text = [line.strip().split(split) + ["0"] for line in f]
+        filepaths_and_text = []
+        for line in f:
+            splits = line.strip().split(split)
+            if len(splits) < 3:
+                splits += ["0"]
+            filepaths_and_text.append(splits)
+        # filepaths_and_text = [line.strip().split(split) + ["0"] for line in f]
     return filepaths_and_text
 
 
