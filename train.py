@@ -43,6 +43,7 @@ def prepare_dataloaders(hparams):
     # Get data, data loaders and collate function ready
     trainset = TextMelLoader(hparams.training_files, hparams)
     valset = TextMelLoader(hparams.validation_files, hparams)
+    testset = TextMelLoader(hparams.testing_files, hparams)
     collate_fn = TextMelCollate(hparams.n_frames_per_step)
 
     if hparams.distributed_run:
@@ -56,7 +57,7 @@ def prepare_dataloaders(hparams):
                               sampler=train_sampler,
                               batch_size=hparams.batch_size, pin_memory=False,
                               drop_last=True, collate_fn=collate_fn)
-    return train_loader, valset, collate_fn
+    return train_loader, valset, testset, collate_fn
 
 
 def prepare_directories_and_logger(output_directory, log_directory, rank):
@@ -183,7 +184,7 @@ def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
     logger = prepare_directories_and_logger(
         output_directory, log_directory, rank)
 
-    train_loader, valset, collate_fn = prepare_dataloaders(hparams)
+    train_loader, valset, _, collate_fn = prepare_dataloaders(hparams)        
 
     # Load checkpoint if one exists
     iteration = 0

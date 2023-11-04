@@ -2,6 +2,7 @@ import random
 import numpy as np
 import torch
 import torch.utils.data
+import os
 
 import layers
 from utils import load_wav_to_torch, load_filepaths_and_text
@@ -20,6 +21,7 @@ class TextMelLoader(torch.utils.data.Dataset):
         self.max_wav_value = hparams.max_wav_value
         self.sampling_rate = hparams.sampling_rate
         self.load_mel_from_disk = hparams.load_mel_from_disk
+        self.save_mel_to_disk = hparams.save_mel_to_disk
         self.stft = layers.TacotronSTFT(
             hparams.filter_length, hparams.hop_length, hparams.win_length,
             hparams.n_mel_channels, hparams.sampling_rate, hparams.mel_fmin,
@@ -47,6 +49,8 @@ class TextMelLoader(torch.utils.data.Dataset):
             audio_norm = torch.autograd.Variable(audio_norm, requires_grad=False)
             melspec = self.stft.mel_spectrogram(audio_norm)
             melspec = torch.squeeze(melspec, 0)
+            if self.save_mel_to_disk and not os.path.isfile(filename + ".npy"):
+                np.save(filename + ".npy", melspec.numpy())
         else:
             melspec = torch.from_numpy(np.load(filename))
             assert melspec.size(0) == self.stft.n_mel_channels, (
