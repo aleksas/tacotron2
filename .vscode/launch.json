@@ -8,8 +8,29 @@
             "name": "Python: train.py",
             "type": "python",
             "request": "launch",
-            "args": ["--output_directory", "outdir", "--log_directory", "logdir"],
+            // "args": ["--output_directory", "outdir", "--log_directory", "logdir", "--checkpoint_path", "outdir/checkpoint_23000"],
+            "args": ["--output_directory", "outdir2", "--log_directory", "logdir"],
             "program": "train.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Python: train.py2",
+            "type": "python",
+            "request": "launch",
+            // "args": ["--output_directory", "outdir", "--log_directory", "logdir", "--checkpoint_path", "outdir/checkpoint_23000"],
+            "args": ["--output_directory", "outdir3", "--log_directory", "logdir"],
+            "program": "train.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Python: inference.py",
+            "type": "python",
+            "request": "launch",
+            // "args": ["--output_directory", "outdir", "--log_directory", "logdir", "--checkpoint_path", "outdir/checkpoint_23000"],
+            "args": [],
+            "program": "inference.py",
             "console": "integratedTerminal",
             "justMyCode": true
         }
