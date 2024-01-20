@@ -8,4 +8,4 @@ scipy
 Unidecode==1.0.22
 pillow
 numba==0.57.0
-
+tensorboardX==2.6.2.2

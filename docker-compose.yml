@@ -9,6 +9,7 @@ services:
       - "6006:6006"
       - "31337:31337"
       - "8888:8888"
+    working_dir: /workspaces/tacotron2
     shm_size: 2gb
     command: /bin/sh -c "while sleep 1000; do :; done"
     deploy:
@@ -18,4 +19,6 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
+      volumes:
+        - ./waveglow/checkpoints:/workspaces/tacotron2/waveglow/checkpoints
 

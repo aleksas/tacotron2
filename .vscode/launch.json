@@ -15,6 +15,17 @@
             "justMyCode": true
         },
         {
+            "name": "Python: train.py WAVEGLOW",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/waveglow",
+            // "args": ["--output_directory", "outdir", "--log_directory", "logdir", "--checkpoint_path", "outdir/checkpoint_23000"],
+            "args": ["-c", "config.json"],
+            "program": "train.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
             "name": "Python: train.py2",
             "type": "python",
             "request": "launch",
