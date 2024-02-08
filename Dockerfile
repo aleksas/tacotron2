@@ -11,18 +11,9 @@ RUN git reset --hard 7b2e71b0d4013f8e2f9f1c8dd21980ff1d76f1b6
 RUN pip install -v --disable-pip-version-check --no-cache-dir --no-build-isolation --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" /root/workspaces/apex
 
 RUN mkdir -p /root/workspaces/
-COPY . /root/workspaces/tacotron2
+COPY ./requirements.txt /root/workspaces/tacotron2/requirements.txt
 RUN pip install -r /root/workspaces/tacotron2/requirements.txt
 
 WORKDIR /root/workspaces/tacotron2
 
-#RUN pip install apex==0.9.10.dev0 
-
 FROM dev AS build
-
-# RUN mkdir -p /data \
-#     && wget -nc https://data.keithito.com/data/speech/LJSpeech-1.1.tar.bz2 -P /data/
-# RUN if [ ! -d "data/LJSpeech-1.1" ]; then tar -xvf  data/LJSpeech-1.1.tar.bz2 -C data; fi
-
-#RUN sed -i -- 's,DUMMY,data/LJSpeech-1.1/wavs,g' filelists/*.txt
-#RUN python train.py --output_directory=outdir --log_directory=logdir

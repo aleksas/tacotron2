@@ -2,12 +2,21 @@ services:
   tacotron2:
     volumes:
       - ./:/workspaces/tacotron2/
-    #- ../data/:/workspaces/tacotron2/data/
+      - ~/workspace/data/LJSpeech-1.1:/workspaces/tacotron2/data/LJSpeech-1.1
+      - ./waveglow/checkpoints:/workspaces/tacotron2/waveglow/checkpoints
     build:
       context: .
     ports:
       - "6006:6006"
       - "31337:31337"
+      #- "8888:8888"
+    working_dir: /workspaces/tacotron2
     shm_size: 2gb
     command: /bin/sh -c "while sleep 1000; do :; done"
-
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

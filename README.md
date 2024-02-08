@@ -46,7 +46,7 @@ By default, the dataset dependent text embedding layers are [ignored]
 ## Inference demo
 1. Download our published [Tacotron 2] model
 2. Download our published [WaveGlow] model
-3. `jupyter notebook --ip=127.0.0.1 --port=31337`
+3. `jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password=''`
 4. Load inference.ipynb 
 
 N.b.  When performing Mel-Spectrogram to Audio synthesis, make sure Tacotron 2
